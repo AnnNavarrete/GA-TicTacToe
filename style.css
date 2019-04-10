@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.player {
+  display: flex;
+  justify-content: space-between;
+  background-color: pink;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.grid div {
+  flex: 0 0 32%;
+  height: 150px;
+  width: 150px;
+  margin-bottom: 5px;
+  background-color: #85c7ff;
+}
