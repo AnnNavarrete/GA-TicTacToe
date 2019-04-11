@@ -90,8 +90,6 @@ var score = {
   O: 0
 };
 
-// var player1Score = 0;
-// var player2Score = 0;
 var countTurn = 0;
 var gameboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -105,20 +103,27 @@ var currentPlayer = function() {
 };
 
 var clicked = function(i) {
+  // the parameter is the element id which is the position in the gameboard array
   var i = parseInt(i);
   gameboard[i] = currentPlayer(); // update current players move in the game board
 
   if (checkIsWinner()) {
     alert(`${currentPlayer()} Won!`);
-    score[currentPlayer()]++; // keep track of scores of players
+    score[currentPlayer()]++;
+    // keep track of player scores, by looking up player name as object
+    // if (currentPlayer() === "X") {
+    //score.X++
+    // } else {
+    //score.O++
+    // }
   } else {
     countTurn++; // update the number of times the players have had a turn
   }
-  // TODO check if gameboard is full of X and O's then I know it's a draw
-  // if check is winner
-  // else is gameboard full
-  // else next countTurn
-  // tools: function to bring this puppy home
+  if (gameboard.indexOf(0) === -1) {
+    // check if gameboard array != to 0 a to reset the game
+    alert("It's a draw!");
+    resetGame();
+  }
 
   updateGameboard();
 };
@@ -130,9 +135,19 @@ var updateGameboard = function() {
     }
     var tile = document.getElementById(i);
     tile.innerText = gameboard[i];
+    document.getElementById("pX").innerText = score.X;
+    document.getElementById("pO").innerText = score.O;
   }
-  document.getElementById("pX").innerText = score.X;
-  document.getElementById("pO").innerText = score.O;
+};
+
+updateGameboard();
+
+var resetGame = function() {
+  countTurn = 0;
+  gameboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  document.querySelectorAll(".grid div").forEach(function(cell) {
+    cell.innerText = "";
+  });
 };
 
 updateGameboard();

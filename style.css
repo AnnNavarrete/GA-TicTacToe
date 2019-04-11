@@ -1,12 +1,37 @@
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+.main-header {
+  background-image: url("Rick&Morty.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 370px;
+}
+
+.container {
+  margin: 0px 100px 100px 100px;
+}
+
 h1 {
   text-align: center;
   font-size: 3rem;
+  color: purple;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
 
-.player {
+img {
+  size: 1rem;
+}
+
+.scoring {
   display: flex;
   justify-content: space-between;
-  background-color: pink;
+  color: purple;
 }
 
 .grid {
@@ -20,4 +45,7 @@ h1 {
   width: 150px;
   margin-bottom: 5px;
   background-color: #85c7ff;
+  text-align: center;
+  font-size: 8rem;
+  color: purple;
 }
