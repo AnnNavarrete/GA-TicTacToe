@@ -12,20 +12,20 @@
     <title>Document</title>
   </head>
   <body>
-    <header class="main-header"></header>
+    <header class="main-header">
+      <img src="Rick&Morty.png" />
+      <h2>Tic Tac Toe</h2>
+    </header>
+
     <div class="container">
-      <h1>Tic Tac Toe</h1>
-      <span class="scoring">
+      <section class="RickSanchez">
         <h2 class="player">
-          <img src="RickSanchez.png" style="width: 7em; height: 7em;" />
-          <span id="pX"></span>
+          <img src="RickSanchez.png" />
+          <span>Score: <span id="pX"></span></span>
         </h2>
-        <h2 class="player">
-          <img src="MortySmith.png" style="width: 7em; height: 7em;" />
-          <span id="pO"></span>
-        </h2>
-      </span>
-      <div class="grid">
+      </section>
+
+      <section class="grid">
         <div id="0" onclick="clicked(this.id)"></div>
         <div id="1" onclick="clicked(this.id)"></div>
         <div id="2" onclick="clicked(this.id)"></div>
@@ -35,8 +35,25 @@
         <div id="6" onclick="clicked(this.id)"></div>
         <div id="7" onclick="clicked(this.id)"></div>
         <div id="8" onclick="clicked(this.id)"></div>
-      </div>
+        <div id="9" onclick="clicked(this.id)"></div>
+        <div id="10" onclick="clicked(this.id)"></div>
+        <div id="11" onclick="clicked(this.id)"></div>
+        <div id="12" onclick="clicked(this.id)"></div>
+        <div id="13" onclick="clicked(this.id)"></div>
+        <div id="14" onclick="clicked(this.id)"></div>
+        <div id="15" onclick="clicked(this.id)"></div>
+      </section>
+
+      <section class="MortySmith">
+        <h2 class="player">
+          <img src="MortySmith.png" />
+          <span>Score: <span id="pO"></span></span>
+        </h2>
+      </section>
     </div>
+    <footer>
+      <button id="startgame" onclick="resetGame()">New Game</button>
+    </footer>
 
     <script src="app.js"></script>
   </body>

@@ -52,16 +52,28 @@
 
 // WIN ALGORITHM
 
-// player winning combo:
+var startSound = function() {
+  var audio = new Audio("Oooo_yeah__caaan_doo!.wav");
+  audio.play();
+};
+
+var clickSound = function() {
+  var audio = new Audio("click.mp3");
+  audio.play();
+};
+
+// update current player winning combo:
 var winningCombo = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
+  [0, 1, 2, 3],
+  [4, 5, 6, 7],
+  [8, 9, 10, 11],
+  [12, 13, 14, 15],
+  [0, 4, 8, 12],
+  [1, 5, 9, 13],
+  [2, 6, 10, 14],
+  [3, 7, 11, 15],
+  [0, 5, 10, 15],
+  [3, 6, 9, 12]
 ];
 
 var checkIsWinner = function() {
@@ -71,7 +83,7 @@ var checkIsWinner = function() {
     for (var j = 0; j < winningCombo[i].length; j++) {
       // itirates through winning move positions
       var winningMoveIndex = winningCombo[i][j];
-      if (currentPlayer() !== gameboard[winningMoveIndex]) {
+      if (currentPlayer() !== state.gameboard[winningMoveIndex]) {
         // checking that a player has not matched the position of a winning combo
         isWinner = false;
       }
@@ -84,18 +96,26 @@ var checkIsWinner = function() {
   return false;
 };
 
-var score = {
-  // moved to better keep track of players score
-  X: 0,
-  O: 0
+// store in an object to make local storage simpler
+var state = {
+  countTurn: 0,
+  gameboard: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  score: {
+    // moved to better keep track of players score
+    X: 0,
+    O: 0
+  },
+  resetCount: 0
 };
 
-var countTurn = 0;
-var gameboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+var stateStorage = window.localStorage.getItem("state");
+if (stateStorage !== null) {
+  state = JSON.parse(stateStorage);
+}
 
 var currentPlayer = function() {
   // assigning player one to even and second player to odd
-  if (countTurn % 2 === 0) {
+  if (state.countTurn % 2 === 0) {
     return "X";
   } else {
     return "O";
@@ -103,51 +123,51 @@ var currentPlayer = function() {
 };
 
 var clicked = function(i) {
+  clickSound();
   // the parameter is the element id which is the position in the gameboard array
   var i = parseInt(i);
-  gameboard[i] = currentPlayer(); // update current players move in the game board
+  state.gameboard[i] = currentPlayer(); // update current players move in the game board
 
   if (checkIsWinner()) {
-    alert(`${currentPlayer()} Won!`);
-    score[currentPlayer()]++;
-    // keep track of player scores, by looking up player name as object
-    // if (currentPlayer() === "X") {
-    //score.X++
-    // } else {
-    //score.O++
-    // }
+    state.score[currentPlayer()]++;
   } else {
-    countTurn++; // update the number of times the players have had a turn
+    state.countTurn++; // update the number of times the players have had a turn
   }
-  if (gameboard.indexOf(0) === -1) {
+  if (state.gameboard.indexOf(0) === -1) {
     // check if gameboard array != to 0 a to reset the game
     alert("It's a draw!");
-    resetGame();
   }
 
   updateGameboard();
 };
 
 var updateGameboard = function() {
-  for (var i = 0; i < gameboard.length; i++) {
-    if (gameboard[i] === 0) {
-      continue;
-    }
+  for (var i = 0; i < state.gameboard.length; i++) {
     var tile = document.getElementById(i);
-    tile.innerText = gameboard[i];
-    document.getElementById("pX").innerText = score.X;
-    document.getElementById("pO").innerText = score.O;
+
+    if (state.gameboard[i] === 0) {
+      tile.innerText = "";
+    } else {
+      tile.innerText = state.gameboard[i];
+    }
+    document.getElementById("pX").innerText = state.score.X;
+    document.getElementById("pO").innerText = state.score.O;
+    // store state object in local storage to persist game between sessions
+    window.localStorage.setItem("state", JSON.stringify(state));
   }
 };
 
 updateGameboard();
 
 var resetGame = function() {
-  countTurn = 0;
-  gameboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  document.querySelectorAll(".grid div").forEach(function(cell) {
-    cell.innerText = "";
-  });
+  state.resetCount++;
+  if (state.resetCount >= 3) {
+    alert("Game Over");
+    window.localStorage.removeItem("state");
+    window.location = "https://www.youtube.com/embed/UFFi9PWKDjg"; // test video
+  }
+  startSound();
+  state.countTurn = 0;
+  state.gameboard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  updateGameboard();
 };
-
-updateGameboard();
